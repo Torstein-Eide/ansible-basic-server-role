@@ -1,0 +1,13 @@
+apt_keys:
+  - {src: webmin.com-jcameron-key.asc, dest: /etc/apt/trusted.gpg.d }
+  - {src: debian-9-archive-key-9.asc, dest: /etc/apt/trusted.gpg.d }
+  - {src: debian-9-sec-archive-key-9.asc, dest: /etc/apt/trusted.gpg.d }
+  - {src: debian-9-backport-key.asc, dest: /etc/apt/trusted.gpg.d }
+apt_sourceslist:
+  - "deb http://ftp.no.debian.org/debian stretch main contrib non-free"
+  - "deb http://ftp.no.debian.org/debian-security/ stretch/updates main contrib non-free"
+  - "deb http://ftp.no.debian.org/debian stretch-updates main contrib non-free"
+  - "deb http://ftp.no.debian.org/debian stretch-backports main"
+  - "deb http://download.webmin.com/download/repository sarge contrib"
+
+###sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B48AD6246925553

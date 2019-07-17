@@ -1,0 +1,23 @@
+apt_keys:
+  - {src: webmin.com-jcameron-key.asc, dest: /etc/apt/trusted.gpg.d }
+apt_sourceslist:
+  - "deb http://no.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse"
+  - "deb http://download.webmin.com/download/repository sarge contrib"
+  - "deb http://no.archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse"
+  - "deb http://no.archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse"
+  - "deb http://no.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse"
+
+# no.archive.ubuntu.com
+#------------------------------------------#
+#    OFFICIAL UBUNTU REPOS                 #
+#------------------------------------------#
+
+#
+#
+# ###### Ubuntu Main Repos
+# deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+#
+# ###### Ubuntu Update Repos
+# deb http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
+# deb http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
+# deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse

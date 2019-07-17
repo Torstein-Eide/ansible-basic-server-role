@@ -1,0 +1,7 @@
+files search order:
+  role/files/webmin-jcameron-key.asc
+  role/webmin-jcameron-key.asc
+  role/tasks/files/webmin-jcameron-key.asc
+  role/tasks/webmin-jcameron-key.asc
+  "ansiblePB folder"/files/webmin-jcameron-key.asc
+  "ansiblePB folder"/webmin-jcameron-key.asc

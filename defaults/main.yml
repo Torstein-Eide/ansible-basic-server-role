@@ -1,0 +1,44 @@
+---
+ansible_managed: This file is managed by Ansible, all changes will be lost.
+#
+apache_group: apache
+#
+admin_user:
+admin_email: "admin@{{ mail_domain }}"
+
+apt_proxy: None #empty to disable
+
+apt_mirror_debian: ftp.no.debian.org
+apt_mirror_ubuntu: no.archive.ubuntu.com
+
+apt_sourceslist:
+  - "deb http://{{apt_proxy}}/debian stretch main contrib non-free"
+
+apt_packages: ['zstd','curl','wget','dirmngr','rsync','tree','nload','bc','tree','htop','nmon','pigz','bmon','dnsutils','snmpd','sipcalc','lldpd','iperf3','hdparm','lm-sensors','cockpit','apt-transport-https','webmin','systemd-cron', 'aptitude']
+
+apt_keys: [] #Defined in vars.
+#  - {src: webmin.com-jcameron-key.asc, dest: /tmp/apt_keys }
+#  - {src: debian-9-archive-key-9.asc, dest: /tmp/apt_keys }
+#  - {src: debian-9-sec-archive-key-9.asc, dest: /tmp/apt_keys }
+#  - {src: debian-9-backport-key.asc, dest: /tmp/apt_keys }
+
+raspberrypi_boot_config:
+  - {regexp: '^gpu_mem=', line: gpu_mem=16}
+  - {regexp: '^boot_delay=', line: boot_delay=0}
+  - {regexp: '^dtoverlay=pi3-disable-bt', line: dtoverlay=pi3-disable-bt}
+  - {regexp: '^disable_splash=', line: disable_splash=1}
+  - {regexp: '^dtparam=audio=', line: dtparam=audio=off}
+
+#  - {regexp: '^dtoverlay=pi3-disable-wifi', line: dtoverlay=pi3-disable-wifi }
+
+
+country: NO #short ISO code of your country. See Wikipedia for a list of country codes
+
+SSL_Country_Name: NO #(2 letter code) [AU]
+SSL_State_or_Province_Name: Province
+SSL_Locality_Name: Locality
+SSL_Organization_Name: My dirty business #(eg, company) [Internet Widgits Pty Ltd]
+SSL_Organizational_Unit_Name:  IT Department #(eg, section) []:
+SSL_Common_Name: "*.{{ansible_fqdn}}" #(e.g. server FQDN or YOUR name) []:
+#SSL_Email_Address: "{{ ansible_env.USER }}@{{ mail_domain }}"
+power-governer: conservative

@@ -1,0 +1,20 @@
+apt_keys:
+  - {src: webmin.com-jcameron-key.asc, dest: /etc/apt/trusted.gpg.d }
+  - {src: debian-10-archive-key-10.asc, dest: /etc/apt/trusted.gpg.d }
+  - {src: debian-10-archive-key-10-security.asc, dest: /etc/apt/trusted.gpg.d }
+  - {src: debian-9-archive-key-9.asc, dest: /etc/apt/trusted.gpg.d }
+  - {src: debian-9-sec-archive-key-9.asc, dest: /etc/apt/trusted.gpg.d }
+  - {src: debian-9-backport-key.asc, dest: /etc/apt/trusted.gpg.d }
+
+apt_sourceslist:
+  - "deb http://download.webmin.com/download/repository sarge contrib"
+  - "deb http://raspbian.trivini.no/raspbian/ buster main contrib non-free rpi"
+  - "deb http://archive.raspberrypi.org/debian/ buster main ui"
+  - "deb http://ftp.no.debian.org/debian/ stretch-backports main"
+
+
+
+#deb http://raspbian.trivini.no/raspbian/ buster main contrib non-free rpi
+# Uncomment line below then 'apt-get update' to enable 'apt-get source'
+# deb-src http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi
+#deb https://download.webmin.com/download/repository sarge contrib

@@ -1,0 +1,70 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          raspi-config
+# Required-Start: udev mountkernfs $remote_fs
+# Required-Stop:
+# Default-Start: S 2 3 4 5
+# Default-Stop:
+# Short-Description: Switch to ondemand cpu governor (unless shift key is pressed)
+# Description:
+### END INIT INFO
+### Dok info
+## https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt
+
+
+. /lib/lsb/init-functions
+### /etc/init.d/raspi-config
+###
+### cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
+### conservative ondemand userspace powersave performance schedutil
+###
+PATHcpufreq=/sys/devices/system/cpu/cpufreq
+
+GOVENERNORS="{{ power-governer }}"
+
+## settings for "ondemand" and "conservative"
+UP_THRESHOLD=80
+DOWN_THRESHOLD=20
+SAMPLING_RATE=200000
+SAMPLING_DOWN_FACTOR=5
+IGNORE_NICE_LOAD=1
+FREQ_STEP=20 ##in %
+
+case "$1" in
+  start)
+    log_daemon_msg "Checking if shift key is held down"
+    if [ -x /usr/sbin/thd ] && timeout 1 thd --dump /dev/input/event* | grep -q "LEFTSHIFT\|RIGHTSHIFT"; then
+      printf " Yes. Not enabling $GOVENERNORS scaling governor"
+      log_end_msg 0
+    else
+      printf " No. Switching to $GOVENERNORS scaling governor"
+      SYS_CPUFREQ_GOVERNOR=/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+      if [ -e $SYS_CPUFREQ_GOVERNOR ]; then
+        echo "$GOVENERNORS" > $SYS_CPUFREQ_GOVERNOR
+
+        if [ "$GOVENERNORS" = "ondemand"  ] || [ "$GOVENERNORS" = "conservative"  ]; then
+          echo $UP_THRESHOLD          > $PATHcpufreq/$GOVENERNORS/up_threshold
+          echo $SAMPLING_RATE         > $PATHcpufreq/$GOVENERNORS/sampling_rate
+          echo $SAMPLING_DOWN_FACTOR  > $PATHcpufreq/$GOVENERNORS/sampling_down_factor
+
+      	fi
+        if [ "$GOVENERNORS" = "conservative"  ]; then
+          echo $DOWN_THRESHOLD        > $PATHcpufreq/$GOVENERNORS/down_threshold
+      	fi
+
+      fi
+      log_end_msg 0
+    fi
+    ;;
+  stop)
+    ;;
+  restart)
+    ;;
+  force-reload)
+    ;;
+  *)
+    echo "Usage: $0 start" >&2
+    exit 3
+    ;;
+esac

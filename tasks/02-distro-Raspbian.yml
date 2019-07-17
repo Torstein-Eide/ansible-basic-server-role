@@ -1,0 +1,61 @@
+---
+- name: wifi setting
+  lineinfile:
+   path: /etc/wpa_supplicant/wpa_supplicant.conf
+   regexp: '^country='
+   #insertafter: '^#FallbackNTP='
+   line: "country={{ country }}"
+
+- name: zram install
+  apt:
+    deb: http://no.archive.ubuntu.com/ubuntu/pool/universe/z/zram-config/zram-config_0.5_all.deb
+
+
+- stat:
+   path: /var/swap
+   get_checksum: no
+  register: swap_file
+
+- name: remove swap file
+  command: dphys-swapfile swapoff && dphys-swapfile uninstall
+  when: swap_file.stat.exists
+  notify: Reboot
+  ignore_errors: yes
+
+
+- name: uninstall dphys-swapfile
+  apt:
+   pkg: dphys-swapfile
+   state: absent
+  when: swap_file.stat.exists
+
+
+
+
+- name: Remove the user 'pi'
+  user:
+   name: pi
+   state: absent
+   remove: yes
+
+- name: boot setting
+  lineinfile:
+   path: /boot/config.txt
+   regexp: "{{ item.regexp }}"
+   line: "{{ item.line }}"
+  with_items: "{{ raspberrypi_boot_config }}"
+
+- name: remove motd file
+  file:
+    state: absent
+    path: "/etc/motd"
+
+
+- name: 'copy rasp-config'
+  become: true
+  template:
+    src: 'raspi-config.j2'
+    dest: '/etc/init.d/raspi-config'
+    owner: root
+    group: root
+    mode: 0644
