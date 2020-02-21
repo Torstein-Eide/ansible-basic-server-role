@@ -14,7 +14,7 @@ apt_mirror_ubuntu: no.archive.ubuntu.com
 apt_sourceslist:
   - "deb http://{{apt_proxy}}/debian stretch main contrib non-free"
 
-apt_packages: ['xz-utils','zstd','curl','wget','dirmngr','rsync','tree','nload','bc','tree','htop','nmon','pigz','bmon','dnsutils','snmpd','sipcalc','lldpd','iperf3','hdparm','lm-sensors','cockpit','apt-transport-https','webmin','systemd-cron', 'aptitude']
+apt_packages: [ 'netdiscover', 'nmap', 'snmp', 'tshark', 'fping' 'xz-utils','zstd','curl','wget','dirmngr','rsync','tree','nload','bc','tree','htop','nmon','pigz','bmon','dnsutils','snmpd','sipcalc','lldpd','iperf3','hdparm','lm-sensors','cockpit','apt-transport-https','webmin','systemd-cron', 'aptitude']
 
 apt_keys: [] #Defined in vars.
 #  - {src: webmin.com-jcameron-key.asc, dest: /tmp/apt_keys }
