@@ -2,6 +2,7 @@
   copy:
    src: "{{item.src}}"
    dest: "{{item.dest}}" #/{{item.src}}"
+   mode: 0666
 #   checksum: yes
   with_items: "{{apt_keys}}"
 #  notify:
@@ -21,13 +22,13 @@
     dest: /etc/apt/apt.conf.d/00proxy
     owner: root
     group: root
-  when: apt_proxy is defined
+  when: apt_proxy is defined and apt_proxy_disable is not defined
 
 - name: "apt: proxy setup remove"
   file:
    path: "/etc/apt/apt.conf.d/00proxy"
    state: absent
-  when: apt_proxy is not defined
+  when: apt_proxy is not defined or apt_proxy_disable is defined
 
 - name: stat sources.list
   stat:
@@ -35,14 +36,17 @@
   register: sl
 
 
-- name: Move sources.list to sources.list.backup
-  command: mv /etc/apt/sources.list /etc/apt/sources.list.backup
-  when: sl.stat.exists
 
 - apt_repository:
    repo: "{{item}}"
    state: present
+   mode: 0666
   with_items: "{{apt_sourceslist}}"
+
+- name: Move sources.list to sources.list.backup
+  command: mv /etc/apt/sources.list /etc/apt/sources.list.backup
+  when: sl.stat.exists
+
 
 - name: "install list"
   apt:
@@ -56,12 +60,19 @@
    state: present
    default_release: "{{ ansible_lsb['codename'] }}-backports"
   ignore_errors: yes
+  when: cockpit_disable is not defined
 
 - name: upgrade, autoclean and autoremove packages
   apt:
-   upgrade: yes
-   autoremove: yes
-   autoclean: yes
+   upgrade: true
+   autoremove: true
+   autoclean: true
+
+- name: "LLDPd: enable SNMP subagent and enable CDP SONMP and EDP protocol"
+  lineinfile:
+    path: /etc/default/lldpd
+    regexp: '#DAEMON_ARGS="-x -c -s -e"'
+    line: 'DAEMON_ARGS="-x -c -s -e"'
 
 - name: Check if a reboot is required
   stat:
