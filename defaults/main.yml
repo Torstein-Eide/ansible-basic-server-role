@@ -42,4 +42,4 @@ SSL_Organizational_Unit_Name:  IT Department #(eg, section) []:
 SSL_Common_Name: "*.{{ansible_fqdn}}" #(e.g. server FQDN or YOUR name) []:
 #SSL_Email_Address: "{{ ansible_env.USER }}@{{ mail_domain }}"
 
-power_governer: powersave
+power_governer: conservative
