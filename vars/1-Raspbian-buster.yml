@@ -10,7 +10,7 @@ apt_sourceslist:
   - "deb http://download.webmin.com/download/repository sarge contrib"
   - "deb http://raspbian.trivini.no/raspbian/ buster main contrib non-free rpi"
   - "deb http://archive.raspberrypi.org/debian/ buster main ui"
-  - "deb http://ftp.no.debian.org/debian/ stretch-backports main"
+  - "deb http://ftp.no.debian.org/debian/ buster-backports main"
 
 
 
