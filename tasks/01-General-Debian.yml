@@ -64,9 +64,9 @@
 
 - name: upgrade, autoclean and autoremove packages
   apt:
-   upgrade: true
-   autoremove: true
-   autoclean: true
+   upgrade: True
+   autoremove: True
+   autoclean: True
 
 - name: "LLDPd: enable SNMP subagent and enable CDP SONMP and EDP protocol"
   lineinfile:
