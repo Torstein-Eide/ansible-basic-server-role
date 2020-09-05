@@ -73,6 +73,7 @@
     path: /etc/default/lldpd
     regexp: '#DAEMON_ARGS="-x -c -s -e"'
     line: 'DAEMON_ARGS="-x -c -s -e"'
+  notify: lldpd restarted
 
 - name: Check if a reboot is required
   stat:

@@ -3,3 +3,9 @@
   async: 1
   poll: 0
   ignore_errors: true
+
+- name: "lldpd restarted"
+  become: True
+  systemd:
+    name: lldpd.service
+    state: restarted
