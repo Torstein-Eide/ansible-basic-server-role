@@ -56,11 +56,15 @@
 
 - name: install Cocpit from backport
   apt:
-   pkg: cockpit
-   state: present
+   pkg: ['cockpit', 'cockpit-system', 'cockpit-storaged', 'cockpit-dashboard', 'cockpit-networkmanager', 'cockpit-packagekit', 'cockpit-ws', 'cockpit-bridge']
+   state: latest
    default_release: "{{ ansible_lsb['codename'] }}-backports"
+<<<<<<< HEAD
   ignore_errors: yes
   when: cockpit_disable is not defined
+=======
+##  ignore_errors: yes
+>>>>>>> bcb1b6dcf38cd849d77cf4845ad65f4a39dc1531
 
 - name: upgrade, autoclean and autoremove packages
   apt:
