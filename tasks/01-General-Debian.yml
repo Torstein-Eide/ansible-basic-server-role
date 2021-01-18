@@ -42,10 +42,11 @@
    state: present
    mode: 0666
   with_items: "{{apt_sourceslist}}"
+  when: apt_sourceslist is defined
 
 - name: Move sources.list to sources.list.backup
   command: mv /etc/apt/sources.list /etc/apt/sources.list.backup
-  when: sl.stat.exists
+  when: sl.stat.exists and apt_sourceslist is defined
 
 
 - name: "install list"
@@ -59,12 +60,9 @@
    pkg: ['cockpit', 'cockpit-system', 'cockpit-storaged', 'cockpit-dashboard', 'cockpit-networkmanager', 'cockpit-packagekit', 'cockpit-ws', 'cockpit-bridge']
    state: latest
    default_release: "{{ ansible_lsb['codename'] }}-backports"
-<<<<<<< HEAD
   ignore_errors: yes
   when: cockpit_disable is not defined
-=======
-##  ignore_errors: yes
->>>>>>> bcb1b6dcf38cd849d77cf4845ad65f4a39dc1531
+
 
 - name: upgrade, autoclean and autoremove packages
   apt:
