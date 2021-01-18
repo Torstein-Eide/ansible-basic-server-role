@@ -3,8 +3,6 @@
 - name: "include os-specific variables"
   include_vars: "1-{{ ansible_lsb['id'] }}-{{ ansible_facts ['distribution_release'] }}.yml"
   register: result
-  ignore_errors: yes
-
 
 - name: variabel that is include
   debug:
@@ -18,3 +16,8 @@
   include_tasks: "02-distro-{{ ansible_lsb['id'] }}.yml" #-{{ ansible_facts ['distribution_release'] }}
   #distribution
   ignore_errors: yes
+
+
+- name: "Include task for OS family"
+  include_tasks: "01-General-{{ ansible_os_family }}.yml" #-{{ ansible_facts ['distribution_release'] }}
+  #distribution
