@@ -2,7 +2,6 @@
   copy:
    src: "{{item.src}}"
    dest: "{{item.dest}}" #/{{item.src}}"
-   mode: 0666
 #   checksum: yes
   with_items: "{{apt_keys}}"
 #  notify:
@@ -36,6 +35,9 @@
   register: sl
 
 
+- name: Move sources.list to sources.list.backup
+  command: mv /etc/apt/sources.list /etc/apt/sources.list.backup
+  when: sl.stat.exists and apt_sourceslist is defined
 
 - apt_repository:
    repo: "{{item}}"
@@ -43,11 +45,6 @@
    mode: 0666
   with_items: "{{apt_sourceslist}}"
   when: apt_sourceslist is defined
-
-- name: Move sources.list to sources.list.backup
-  command: mv /etc/apt/sources.list /etc/apt/sources.list.backup
-  when: sl.stat.exists and apt_sourceslist is defined
-
 
 - name: "install list"
   apt:
@@ -60,15 +57,15 @@
    pkg: ['cockpit', 'cockpit-system', 'cockpit-storaged', 'cockpit-dashboard', 'cockpit-networkmanager', 'cockpit-packagekit', 'cockpit-ws', 'cockpit-bridge']
    state: latest
    default_release: "{{ ansible_lsb['codename'] }}-backports"
-  ignore_errors: yes
+##  ignore_errors: yes
   when: cockpit_disable is not defined
-
 
 - name: upgrade, autoclean and autoremove packages
   apt:
-   upgrade: True
-   autoremove: True
-   autoclean: True
+   upgrade: yes
+   autoremove: yes
+   autoclean: yes
+
 
 - name: "LLDPd: enable SNMP subagent and enable CDP SONMP and EDP protocol"
   lineinfile:
