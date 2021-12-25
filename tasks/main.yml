@@ -16,8 +16,3 @@
   include_tasks: "02-distro-{{ ansible_lsb['id'] }}.yml" #-{{ ansible_facts ['distribution_release'] }}
   #distribution
   ignore_errors: yes
-
-
-- name: "Include task for OS family"
-  include_tasks: "01-General-{{ ansible_os_family }}.yml" #-{{ ansible_facts ['distribution_release'] }}
-  #distribution
